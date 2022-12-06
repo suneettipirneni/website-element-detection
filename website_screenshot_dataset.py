@@ -5,7 +5,6 @@ import json
 import torch
 from pycocotools.coco import COCO
 from PIL import Image
-import torchvision
 from torchvision import transforms as T
 
 # Loading COCO format image annotations in pytorch is somewhat tedious.
@@ -66,7 +65,6 @@ class WebsiteScreenshotsDataset(Dataset):
       boxes.append([min_x, min_y, max_x, max_y])
     
     # Convert to tensor
-    # boxes = torch.as_tensor(boxes)
     area = torch.as_tensor(list(map(lambda x: x['area'], annotations)))
     is_crowd = torch.zeros(len(annotations), dtype=torch.float32)
 
@@ -74,7 +72,7 @@ class WebsiteScreenshotsDataset(Dataset):
       "boxes": torch.as_tensor(boxes),
       "image_id": torch.as_tensor([current_image['id']]),
       "area": area,
-      "is_crowd": is_crowd,
+      "iscrowd": is_crowd,
       "labels": torch.as_tensor(labels)
     }
 
